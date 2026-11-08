@@ -32,4 +32,14 @@ contextBridge.exposeInMainWorld('api', {
 
   // 文件保存
   saveFile: (content, filename) => ipcRenderer.invoke('save-file', content, filename),
+
+  // 高压对抗训练
+  getDrillScenarios: () => ipcRenderer.invoke('drill-get-scenarios'),
+  generateAttack: (scenario, difficulty) => ipcRenderer.invoke('drill-generate-attack', scenario, difficulty),
+  getSeedAttack: (scenarioId, difficulty) => ipcRenderer.invoke('drill-seed-attack', scenarioId, difficulty),
+  evaluateDrill: (round) => ipcRenderer.invoke('drill-evaluate', round),
+
+  // 语音朗读 (TTS)
+  speak: (text) => ipcRenderer.invoke('tts-speak', text),
+  getTTSStatus: () => ipcRenderer.invoke('tts-status'),
 });

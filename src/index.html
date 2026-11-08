@@ -38,6 +38,10 @@
       <!-- 顶部栏 -->
       <div class="topbar">
         <span class="app-title">宇宙无敌表达训练系统</span>
+        <div class="mode-switch">
+          <button id="btn-mode-free" class="mode-btn mode-active">🎤 自由表达</button>
+          <button id="btn-mode-drill" class="mode-btn">⚔️ 高压对抗</button>
+        </div>
         <div class="topbar-right">
           <span id="timer" class="timer">00:00</span>
           <button id="btn-prompt-editor" class="btn-icon" title="训练规则">🎯</button>
@@ -45,47 +49,128 @@
         </div>
       </div>
 
-      <!-- 字幕区顶部工具栏 -->
-      <div class="subtitle-topbar">
-        <button id="btn-paste" class="btn-sm btn-paste-top">
-          <span>📋</span> 粘贴逐字稿
-        </button>
-        <div class="subtitle-topbar-right">
-          <button id="btn-copy-text" class="btn-sm hidden" title="复制原文">📋 复制</button>
-          <button id="btn-save-text" class="btn-sm hidden" title="保存原文">💾 保存</button>
-          <button id="btn-clear" class="btn-sm hidden" title="清空">🗑️ 清空</button>
+      <!-- 自由表达模式 -->
+      <div id="free-mode">
+        <!-- 字幕区顶部工具栏 -->
+        <div class="subtitle-topbar">
+          <button id="btn-paste" class="btn-sm btn-paste-top">
+            <span>📋</span> 粘贴逐字稿
+          </button>
+          <div class="subtitle-topbar-right">
+            <button id="btn-copy-text" class="btn-sm hidden" title="复制原文">📋 复制</button>
+            <button id="btn-save-text" class="btn-sm hidden" title="保存原文">💾 保存</button>
+            <button id="btn-clear" class="btn-sm hidden" title="清空">🗑️ 清空</button>
+          </div>
+        </div>
+
+        <!-- 字幕滚动区 -->
+        <div id="subtitle-scroll" class="subtitle-scroll">
+          <div id="subtitle-container" class="subtitle-container">
+            <div class="subtitle-line hint">点击下方按钮开始说话</div>
+          </div>
+        </div>
+
+        <!-- 底部按钮（只保留核心操作） -->
+        <div class="action-bar">
+          <button id="btn-start" class="btn-main btn-start">
+            <span class="btn-icon-inner">🎤</span>
+            <span class="btn-label">开始录制</span>
+          </button>
+          <button id="btn-pause" class="btn-main btn-pause hidden">
+            <span class="btn-icon-inner">⏸️</span>
+            <span class="btn-label">暂停</span>
+          </button>
+          <button id="btn-resume" class="btn-main btn-resume hidden">
+            <span class="btn-icon-inner">▶️</span>
+            <span class="btn-label">继续</span>
+          </button>
+          <button id="btn-stop" class="btn-main btn-stop hidden">
+            <span class="btn-icon-inner">⏹️</span>
+            <span class="btn-label">结束</span>
+          </button>
+          <button id="btn-report" class="btn-main btn-report hidden">
+            <span class="btn-icon-inner">📋</span>
+            <span class="btn-label">生成报告</span>
+          </button>
         </div>
       </div>
 
-      <!-- 字幕滚动区 -->
-      <div id="subtitle-scroll" class="subtitle-scroll">
-        <div id="subtitle-container" class="subtitle-container">
-          <div class="subtitle-line hint">点击下方按钮开始说话</div>
+      <!-- 高压对抗模式 -->
+      <div id="drill-mode" class="hidden">
+        <div class="drill-config">
+          <label>场景
+            <select id="drill-scenario"></select>
+          </label>
+          <label>难度
+            <select id="drill-difficulty">
+              <option value="easy">简单</option>
+              <option value="medium" selected>中等</option>
+              <option value="hard">困难</option>
+            </select>
+          </label>
+          <label>倒计时
+            <select id="drill-countdown">
+              <option value="3" selected>3 秒</option>
+              <option value="5">5 秒</option>
+              <option value="8">8 秒</option>
+            </select>
+          </label>
+          <button id="btn-drill-start" class="btn-main btn-start">🎬 开始对练</button>
+          <button id="btn-drill-stop" class="btn-main btn-stop hidden">⏹ 提交回应并评分</button>
         </div>
-      </div>
 
-      <!-- 底部按钮（只保留核心操作） -->
-      <div class="action-bar">
-        <button id="btn-start" class="btn-main btn-start">
-          <span class="btn-icon-inner">🎤</span>
-          <span class="btn-label">开始录制</span>
-        </button>
-        <button id="btn-pause" class="btn-main btn-pause hidden">
-          <span class="btn-icon-inner">⏸️</span>
-          <span class="btn-label">暂停</span>
-        </button>
-        <button id="btn-resume" class="btn-main btn-resume hidden">
-          <span class="btn-icon-inner">▶️</span>
-          <span class="btn-label">继续</span>
-        </button>
-        <button id="btn-stop" class="btn-main btn-stop hidden">
-          <span class="btn-icon-inner">⏹️</span>
-          <span class="btn-label">结束</span>
-        </button>
-        <button id="btn-report" class="btn-main btn-report hidden">
-          <span class="btn-icon-inner">📋</span>
-          <span class="btn-label">生成报告</span>
-        </button>
+        <div class="drill-stage">
+          <div class="drill-label">⚔️ NPC 攻击</div>
+          <div id="drill-attack" class="drill-attack">选择一个场景，点击「开始对练」接受挑战</div>
+          <div class="drill-stage-actions">
+            <button id="btn-drill-speak" class="btn-sm">🔊 朗读攻击</button>
+            <button id="btn-drill-skip" class="btn-sm">↻ 换一题</button>
+          </div>
+          <div id="drill-countdown" class="drill-countdown hidden"></div>
+        </div>
+
+        <div class="drill-response">
+          <div class="drill-label">🎙️ 你的回应</div>
+          <div id="drill-response-text" class="drill-response-text">倒计时结束立刻开口反驳，我会记录你的响应时延和口头禅</div>
+          <div class="drill-response-stats" id="drill-response-stats"></div>
+        </div>
+
+        <div id="drill-result" class="drill-result hidden">
+          <div class="drill-result-head">
+            <span class="drill-total" id="drill-total">--</span>
+            <span class="drill-verdict" id="drill-verdict"></span>
+          </div>
+          <div class="drill-scorebar">
+            <span class="drill-score-label">逻辑</span>
+            <div class="drill-bar"><div id="bar-logic" class="drill-bar-fill"></div></div>
+            <span class="drill-score-num" id="num-logic">--</span>
+          </div>
+          <div class="drill-scorebar">
+            <span class="drill-score-label">抗压</span>
+            <div class="drill-bar"><div id="bar-stress" class="drill-bar-fill"></div></div>
+            <span class="drill-score-num" id="num-stress">--</span>
+          </div>
+          <div class="drill-scorebar">
+            <span class="drill-score-label">得体</span>
+            <div class="drill-bar"><div id="bar-propriety" class="drill-bar-fill"></div></div>
+            <span class="drill-score-num" id="num-propriety">--</span>
+          </div>
+          <div class="drill-result-sections">
+            <div class="drill-section">
+              <div class="drill-label">✅ 亮点</div>
+              <ul id="drill-strengths" class="drill-list"></ul>
+            </div>
+            <div class="drill-section">
+              <div class="drill-label">🔧 问题</div>
+              <ul id="drill-issues" class="drill-list"></ul>
+            </div>
+            <div class="drill-section">
+              <div class="drill-label">💬 更直接的说法</div>
+              <div id="drill-direct" class="drill-direct"></div>
+            </div>
+          </div>
+          <button id="btn-drill-again" class="btn-main btn-start" style="margin:0 auto;">🔄 再来一题</button>
+        </div>
       </div>
     </main>
 
@@ -143,5 +228,6 @@
   </div>
 
   <script src="app.js"></script>
+  <script src="drill.js"></script>
 </body>
 </html>

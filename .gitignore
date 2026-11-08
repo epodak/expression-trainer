@@ -1,6 +1,6 @@
 node_modules/
-models/*.onnx
-models/sherpa-onnx-*/
+models/*
+!models/.gitkeep
 dist/
 .DS_Store
 

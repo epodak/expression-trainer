@@ -295,3 +295,204 @@ button, input, select, .subtitle-scroll, .feedback-content, .modal-body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+/* ===== 模式切换 ===== */
+.mode-switch {
+  display: flex;
+  gap: 0;
+  border: 1px solid #333;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.mode-btn {
+  background: transparent;
+  color: #888;
+  border: none;
+  padding: 5px 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.mode-btn:hover { color: #fff; }
+.mode-btn.mode-active { background: #E5007E; color: #fff; }
+
+/* ===== 高压对抗模式 ===== */
+#drill-mode {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 24px 16px;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.drill-config {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+.drill-config label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #888;
+}
+.drill-config select {
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+.drill-config select:focus { outline: none; border-color: #E5007E; }
+
+.drill-stage {
+  background: #0d0d0d;
+  border: 1px solid #E5007E;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-top: 6px;
+  position: relative;
+  animation: subtitleGlow 3s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.drill-label {
+  font-size: 11px;
+  color: #777;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.drill-attack {
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.7;
+  min-height: 40px;
+  padding: 6px 0;
+}
+.drill-stage-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.drill-countdown {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 72px;
+  font-weight: 700;
+  color: #E5007E;
+  text-shadow: 0 0 30px rgba(229,0,126,0.5);
+  animation: pulse 0.8s ease-in-out infinite;
+  z-index: 10;
+}
+
+.drill-response {
+  margin-top: 12px;
+  flex: 1;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+}
+.drill-response-text {
+  background: #0a0a0a;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 20px;
+  line-height: 1.7;
+  color: #fff;
+  min-height: 70px;
+  flex: 1;
+}
+.drill-response-text .filler { color: #ff6b6b; text-decoration: underline wavy; }
+.drill-response-text .hedge { color: #ffa94d; }
+.drill-response-text .vague { color: #ffd43b; border-bottom: 2px dashed #ffd43b; }
+.drill-response-stats {
+  display: flex;
+  gap: 16px;
+  padding-top: 8px;
+  font-size: 12px;
+  color: #666;
+}
+.drill-response-stats .drill-stat-red { color: #ff6b6b; }
+.drill-response-stats .drill-stat-orange { color: #ffa94d; }
+.drill-response-stats .drill-stat-yellow { color: #ffd43b; }
+
+/* 结果 */
+.drill-result {
+  margin-top: 14px;
+  background: #0d0d0d;
+  border: 1px solid #E5007E;
+  border-radius: 12px;
+  padding: 18px 22px;
+  flex-shrink: 0;
+}
+.drill-result-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.drill-total {
+  font-size: 44px;
+  font-weight: 700;
+  color: #E5007E;
+  font-family: "SF Mono", monospace;
+}
+.drill-verdict { font-size: 15px; color: #ddd; line-height: 1.6; }
+.drill-scorebar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+}
+.drill-score-label { width: 32px; font-size: 12px; color: #888; }
+.drill-bar {
+  flex: 1;
+  height: 8px;
+  background: #1a1a1a;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.drill-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ff6b6b, #ffa94d, #69db7c);
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+.drill-score-num { width: 28px; font-size: 13px; text-align: right; font-family: "SF Mono", monospace; color: #ccc; }
+.drill-result-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+.drill-section { min-width: 0; }
+.drill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.drill-list li { padding: 3px 0; color: #ccc; }
+#drill-strengths li { color: #69db7c; }
+#drill-issues li { color: #ff6b6b; }
+.drill-direct {
+  background: #101010;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: #fff;
+  line-height: 1.7;
+}

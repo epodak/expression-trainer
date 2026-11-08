@@ -4,6 +4,8 @@ const fs = require('fs');
 const { initASR, feedAudio, stopRecognition } = require('./lib/asr');
 const { loadLexicon, analyzeText } = require('./lib/lexicon');
 const { sendFeedback, sendReport } = require('./lib/ai-feedback');
+const { getScenarios, generateAttack, evaluateResponse } = require('./lib/drill');
+const { synthesize, getEngineStatus } = require('./lib/tts');
 
 let mainWindow;
 let settingsWindow;
@@ -250,4 +252,49 @@ ipcMain.handle('get-final-report', async (event, { fullText, stats }) => {
   } catch (error) {
     return { success: false, error: error.message };
   }
+});
+
+// 高压对抗训练
+ipcMain.handle('drill-get-scenarios', () => {
+  return getScenarios();
+});
+
+ipcMain.handle('drill-generate-attack', async (event, scenario, difficulty) => {
+  const settings = loadSettings();
+  const customPrompt = loadCustomPrompt();
+  try {
+    const attack = await generateAttack(scenario, difficulty, settings, customPrompt);
+    return { success: true, attack };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('drill-seed-attack', (event, scenarioId, difficulty) => {
+  const { getSeedAttacks } = require('./lib/drill');
+  return { success: true, attack: getSeedAttacks(scenarioId, difficulty) };
+});
+
+ipcMain.handle('drill-evaluate', async (event, round) => {
+  const settings = loadSettings();
+  const customPrompt = loadCustomPrompt();
+  try {
+    const result = await evaluateResponse(round, settings, customPrompt);
+    return { success: true, result };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
+
+// 语音朗读 (TTS)
+ipcMain.handle('tts-speak', async (event, text) => {
+  try {
+    return await synthesize(text);
+  } catch (error) {
+    return { engine: 'system', mime: '', base64: '', error: error.message };
+  }
+});
+
+ipcMain.handle('tts-status', () => {
+  return { engine: getEngineStatus() };
 });
